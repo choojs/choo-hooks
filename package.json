@@ -1,0 +1,23 @@
+{
+  "name": "choo-hooks",
+  "description": "Hook into Choo's events and timings",
+  "repository": "choojs/choo-hooks",
+  "version": "1.0.0",
+  "scripts": {
+    "deps": "dependency-check . && dependency-check . --extra --no-dev",
+    "start": "node .",
+    "test": "standard && npm run deps"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "dependency-check": "^2.9.1",
+    "standard": "^10.0.2",
+    "tape": "^4.7.0"
+  },
+  "keywords": [
+    "choo",
+    "timing",
+    "hooks"
+  ],
+  "license": "MIT"
+}
