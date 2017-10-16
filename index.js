@@ -45,15 +45,13 @@ ChooHooks.prototype.start = function () {
     var eventName = timing.name
     if (/choo\.morph/.test(eventName)) {
       self.buffer.render.push(timing)
-    } else if (/choo\.route/.test(eventName)) {
+    } else if (/choo\.router/.test(eventName)) {
       self.buffer.render.push(timing)
     } else if (/choo\.render/.test(eventName)) {
       self.buffer.render.push(timing)
     } else if (/choo\.use/.test(eventName)) {
       self.buffer.use.push(timing)
-    } else if (/choo\.emit/.test(eventName) &&
-      !/log:/.test(eventName) &&
-      !/sw:/.test(eventName)) {
+    } else if (/choo\.emit/.test(eventName) && !/log:/.test(eventName)) {
       var eventListener = self.listeners['event']
       if (eventListener) {
         var timingName = eventName.match(/choo\.emit\('(.*)'\)/)[1]
@@ -63,7 +61,7 @@ ChooHooks.prototype.start = function () {
         var data = self.buffer.events[traceId]
 
         self.buffer.events[traceId] = null
-        eventListener(timingName, timing, data)
+        eventListener(timingName, data, timing)
       }
     }
 
@@ -95,12 +93,10 @@ ChooHooks.prototype.start = function () {
     } else if (eventName === 'DOMContentLoaded') {
       // DOMContentLoaded
       self._emitLoaded()
-    } else if (eventName === 'sw:installed') {
-      var swListener = self.listeners['service-worker']
-      if (swListener) swListener(data)
     } else if (logLevel) {
+      logLevel = logLevel[1]
       // Log:*
-      var logListener = self.listeners['log:' + logLevel[1]]
+      var logListener = self.listeners['log:' + logLevel]
       if (logListener) logListener(eventName, data)
     } else if (!self.emitter.listeners(eventName).length) {
       // Unhandled
