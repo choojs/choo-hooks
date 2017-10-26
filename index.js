@@ -45,7 +45,7 @@ ChooHooks.prototype.start = function () {
     var eventName = timing.name
     if (/choo\.morph/.test(eventName)) {
       self.buffer.render.push(timing)
-    } else if (/choo\.router/.test(eventName)) {
+    } else if (/choo\.route/.test(eventName)) {
       self.buffer.render.push(timing)
     } else if (/choo\.render/.test(eventName)) {
       self.buffer.render.push(timing)
