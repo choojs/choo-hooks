@@ -2,7 +2,7 @@
   "name": "choo-hooks",
   "description": "Hook into Choo's events and timings",
   "repository": "choojs/choo-hooks",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "scripts": {
     "deps": "dependency-check . && dependency-check . --extra --no-dev",
     "start": "node .",
