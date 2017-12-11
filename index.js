@@ -1,5 +1,5 @@
 var onPerformance = require('on-performance')
-var onIdle = require('on-idle')
+var scheduler = require('nanoscheduler')()
 var assert = require('assert')
 
 module.exports = ChooHooks
@@ -112,7 +112,7 @@ ChooHooks.prototype.start = function () {
 // compute and log time till interactive when DOMContentLoaded event fires
 ChooHooks.prototype._emitLoaded = function () {
   var self = this
-  onIdle(function clear () {
+  scheduler.push(function clear () {
     var listener = self.listeners['DOMContentLoaded']
     var usesListener = self.listeners['use']
 
