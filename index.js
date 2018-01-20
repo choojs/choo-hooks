@@ -19,7 +19,7 @@ function ChooHooks (emitter) {
   this.listeners = {}
   this.buffer = {
     use: [],
-    render: [],
+    render: {},
     events: {}
   }
 }
@@ -44,11 +44,11 @@ ChooHooks.prototype.start = function () {
 
     var eventName = timing.name
     if (/choo\.morph/.test(eventName)) {
-      self.buffer.render.push(timing)
+      self.buffer.render.morph = timing
     } else if (/choo\.route/.test(eventName)) {
-      self.buffer.render.push(timing)
+      self.buffer.render.route = timing
     } else if (/choo\.render/.test(eventName)) {
-      self.buffer.render.push(timing)
+      self.buffer.render.render = timing
     } else if (/choo\.use/.test(eventName)) {
       self.buffer.use.push(timing)
     } else if (/choo\.emit/.test(eventName) && !/log:/.test(eventName)) {
@@ -65,7 +65,8 @@ ChooHooks.prototype.start = function () {
       }
     }
 
-    if (self.buffer.render.length === 3) {
+    var rBuf = self.buffer.render
+    if (rBuf.render && rBuf.route && rBuf.morph) {
       var renderListener = self.listeners['render']
       if (!renderListener) return
       var timings = {}
@@ -76,6 +77,7 @@ ChooHooks.prototype.start = function () {
         else if (/choo\.morph/.test(name)) timings.morph = _timing
         else timings.route = _timing
       }
+      rBuf.render = rBuf.route = rBuf.morph = void 0
       renderListener(timings)
     }
   })
