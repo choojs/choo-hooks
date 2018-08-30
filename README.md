@@ -13,11 +13,11 @@ var choo = require('choo')
 var app = choo()
 app.use(function (state, emitter) {
   var hooks = Hooks(emitter)
-  hook.on('event', function (eventName, timing, data) {
+  hooks.on('event', function (eventName, timing, data) {
     console.log(eventName + ':', timing.duration + 'ms', data)
   })
 
-  hook.on('unhandled', function (eventName, data) {
+  hooks.on('unhandled', function (eventName, data) {
     console.error('No listeners for ' + eventName)
   })
 })
