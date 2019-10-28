@@ -99,7 +99,9 @@ ChooHooks.prototype.start = function () {
       logLevel = logLevel[1]
       // Log:*
       var logListener = self.listeners['log:' + logLevel]
-      if (logListener) logListener(eventName, data)
+      if (logListener) {
+        logListener.apply(null, Array.prototype.slice.call(arguments, 0, arguments.length - 1))
+      }
     } else if (!self.emitter.listeners(eventName).length) {
       // Unhandled
       var unhandledListener = self.listeners['unhandled']
