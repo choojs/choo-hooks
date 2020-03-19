@@ -41,9 +41,6 @@ Listen for service worker event.
 ### `hook.on('event', cb(eventName, timing, data))`
 Called for events implemented at the application layer.
 
-### `hook.on('use', cb(count, duration))`
-Called whenever `app.use()` is called.
-
 ### `hook.on('unhandled', cb(eventName, data))`
 Called whenever an event is emitted, and there is no handler available.
 
