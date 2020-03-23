@@ -18,7 +18,6 @@ function ChooHooks (emitter) {
   this.emitter = emitter
   this.listeners = {}
   this.buffer = {
-    use: [],
     render: {},
     events: {}
   }
@@ -49,8 +48,6 @@ ChooHooks.prototype.start = function () {
       self.buffer.render.route = timing
     } else if (/choo\.render/.test(eventName)) {
       self.buffer.render.render = timing
-    } else if (/choo\.use/.test(eventName)) {
-      self.buffer.use.push(timing)
     } else if (/choo\.emit/.test(eventName) && !/log:/.test(eventName)) {
       var eventListener = self.listeners['event']
       if (eventListener) {
@@ -118,8 +115,6 @@ ChooHooks.prototype._emitLoaded = function () {
   var self = this
   scheduler.push(function clear () {
     var listener = self.listeners['DOMContentLoaded']
-    var usesListener = self.listeners['use']
-
     var timing = self.hasWindow && window.performance && window.performance.timing
 
     if (listener && timing) {
@@ -128,18 +123,5 @@ ChooHooks.prototype._emitLoaded = function () {
         loaded: timing.domContentLoadedEventEnd - timing.navigationStart
       })
     }
-
-    if (self.hasPerformance) {
-      var duration = sumDurations(self.buffer.use)
-      if (usesListener) usesListener(self.buffer.use.length, duration)
-    } else {
-      usesListener()
-    }
   })
-}
-
-function sumDurations (timings) {
-  return timings.reduce(function (sum, timing) {
-    return sum + timing.duration
-  }, 0).toFixed()
 }
